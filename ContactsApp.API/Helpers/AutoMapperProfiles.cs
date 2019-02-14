@@ -15,6 +15,7 @@ namespace ContactsApp.API.Helpers
            .ForMember(dest => dest.Age, opt => opt.MapFrom( d => d.DateOfBirth.CalculateAge()))
            .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom( p => p.Photos.FirstOrDefault(m => m.IsMain).Url));
            CreateMap<Photo, PhotoViewModel>();
+           CreateMap<UserEditViewModel, User>();
        }
         
     }

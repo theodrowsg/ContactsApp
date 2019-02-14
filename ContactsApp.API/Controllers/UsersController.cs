@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using ContactsApp.API.Data;
@@ -38,6 +40,18 @@ namespace ContactsApp.API.Controllers
 
           var userToReturn = await _mediator.Send(new UserDetailsQuery { Id = id});
             return Ok(userToReturn);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(int id , UserEditViewModel userForUpdate)
+        {
+             if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+               return Unauthorized();
+
+             if(await _mediator.Send(new EditUserCommand { User = userForUpdate}) > 0)
+               return NoContent();
+
+             throw new Exception($"Updating user{id} failed to save");
         }
 
     }
