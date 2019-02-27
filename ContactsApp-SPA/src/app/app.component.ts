@@ -14,5 +14,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
       this.authService.decodedToken = this.jwtHelperService.decodeToken(localStorage.getItem('token'));
+      this.authService.profilePhotoUrl = localStorage.getItem('ppUrl');
+      this.authService.changeMemberPhoto(this.authService.profilePhotoUrl);
   }
 }
