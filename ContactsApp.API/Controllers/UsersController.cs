@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ContactsApp.API.Data;
 using ContactsApp.API.Features.Users;
+using ContactsApp.API.Helpers;
 using ContactsApp.API.Models;
 using ContactsApp.API.ViewModels;
 using MediatR;
@@ -14,6 +15,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContactsApp.API.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -43,7 +45,7 @@ namespace ContactsApp.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(int id , UserEditViewModel userForUpdate)
+        public async Task<IActionResult> UpdateUser(int id , UserDetailsViewModel userForUpdate)
         {
              if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                return Unauthorized();

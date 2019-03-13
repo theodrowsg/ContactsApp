@@ -4,6 +4,6 @@ namespace ContactsApp.API.Features.Users
 {
     public class EditUserCommand : IRequest<int>
     {
-        public UserEditViewModel User {get; set;}
+        public UserDetailsViewModel User {get; set;}
     }
 }

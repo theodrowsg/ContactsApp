@@ -19,6 +19,7 @@ namespace ContactsApp.API.Helpers
            CreateMap<ImageUploadOutput, Photo>();
            CreateMap<UserEditViewModel, User>();
            CreateMap<UserCreateInput, User>();
+           CreateMap<UserDetailsViewModel, User>().ForMember(x => x.Photos, opt => opt.Ignore());
        }
         
     }
