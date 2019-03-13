@@ -34,7 +34,7 @@ namespace ContactsApp.API.Controllers
 
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name ="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
 

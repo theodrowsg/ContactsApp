@@ -18,6 +18,7 @@ namespace ContactsApp.API.Helpers
            CreateMap<Photo, PhotoViewModel>();
            CreateMap<ImageUploadOutput, Photo>();
            CreateMap<UserEditViewModel, User>();
+           CreateMap<UserCreateInput, User>();
        }
         
     }

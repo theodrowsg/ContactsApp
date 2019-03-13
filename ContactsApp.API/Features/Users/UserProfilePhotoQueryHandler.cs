@@ -17,9 +17,11 @@ namespace ContactsApp.API.Features.Users
         }
         public async Task<string> Handle(UserProfilePhotoQuery request, CancellationToken cancellationToken)
         {
+            string photoUrl = string.Empty;
             var photo = await _context.Photos.Where(u => u.UserId == request.UserId).FirstOrDefaultAsync( p => p.IsMain);
-
-            return photo.Url;
+            if(photo != null)
+             photoUrl = photo.Url;
+            return photoUrl;
         }
     }
 }

@@ -35,30 +35,25 @@ namespace ContactsApp.API.Controllers
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserCreateInput createUserInput)
+        public async Task<IActionResult> Register(UserCreateInput userCreateInput)
         {
+            var commandResult = await _mediator.Send( new EditUserRegisterCommand { UserCreateInput = userCreateInput});
 
-            createUserInput.UserName = createUserInput.UserName.ToLower();
-
-            if (await _repo.UserExists(createUserInput.UserName))
+            if (!commandResult.Success)
             {
-                return BadRequest("username already exists");
-            };
+                return BadRequest(commandResult.Message);
+            }
 
-            var userToCreate = new User
-            {
-                UserName = createUserInput.UserName
-            };
+            var user = await _mediator.Send( new UserDetailsQuery{ Id = commandResult.ObjectId});
 
-            var createdUser = await _repo.Register(userToCreate, createUserInput.Password);
-
-            return StatusCode(201);
+            return CreatedAtRoute("GetUser", new {controller = "Users", id = user.Id}, user );
 
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginInput userLoginInput)
         {
+
 
             var userFromRepo = await _repo.Login(userLoginInput.UserName.ToLower(), userLoginInput.Password);
             if (userFromRepo == null)
