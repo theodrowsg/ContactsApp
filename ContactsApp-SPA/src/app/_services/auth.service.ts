@@ -26,6 +26,7 @@ login(model: any) {
      if (user) {
        localStorage.setItem('token', user.token);
        localStorage.setItem('ppUrl', user.ppUrl);
+       localStorage.setItem('gender', user.gender);
        this.decodedToken = this.jwtHelper.decodeToken(user.token);
        this.profilePhotoUrl = user.ppUrl;
        this.changeMemberPhoto(user.ppUrl);

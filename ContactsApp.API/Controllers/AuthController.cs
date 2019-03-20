@@ -86,7 +86,8 @@ namespace ContactsApp.API.Controllers
             return Ok(new
             {
                  token = tokenHandler.WriteToken(token),
-                 ppUrl
+                 ppUrl,
+                 gender = userFromRepo.Gender
             });
 
 

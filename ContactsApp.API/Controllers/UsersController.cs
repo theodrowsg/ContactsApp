@@ -28,12 +28,12 @@ namespace ContactsApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
-        {
-         
-          var usersToReturn = await _mediator.Send(new UsersQuery());
+        public async Task<IActionResult> GetUsers([FromQuery]UserParams userParams)
+        {         
+          userParams.UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+          var usersToReturn = await _mediator.Send(new UsersQuery{ UsersParam = userParams});
+          Response.AddPagination(usersToReturn.CurrentPage, usersToReturn.PageSize, usersToReturn.TotalCount, usersToReturn.TotalPages);
           return Ok(usersToReturn);
-
         }
 
         [HttpGet("{id}", Name ="GetUser")]
