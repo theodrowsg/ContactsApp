@@ -56,5 +56,25 @@ namespace ContactsApp.API.Controllers
              throw new Exception($"Updating user{id} failed to save");
         }
 
+        [HttpPost("{id}/like/{recipientId}")]
+        public async Task<ActionResult> LikeUser(int id, int recipientId){
+              if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)){
+                return Unauthorized();
+              }
+
+              var commandResult = await _mediator.Send(new EditUserLikeCommand { UserId = id, RecepientId = recipientId});
+
+              if(!commandResult.Success){
+                 switch(commandResult.MessageCode){
+                     case 404:
+                       return NotFound();
+                      case 400:
+                         return BadRequest(commandResult.Message);
+                       default:
+                           return BadRequest("Failed to like user");
+                 }
+             }
+          return Ok();
+        }
     }
 }
